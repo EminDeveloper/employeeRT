@@ -22,10 +22,8 @@ public class EmployeeController {
     }
 
     // http://localhost:8080/employees
-    // http://localhost:8080/employees.xml
-    // http://localhost:8080/employees.json
     @GetMapping(value = "/employees",
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+            produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<List<Employee>> getEmployees(
             @RequestHeader(name = "X-COM-PERSIST", required = true) String headerPersist,
@@ -36,60 +34,36 @@ public class EmployeeController {
     }
 
     // http://localhost:8080/employee/{empNo}
-    // http://localhost:8080/employee/{empNo}.xml
-    // http://localhost:8080/employee/{empNo}.json
-    @RequestMapping(value = "/employee/{empNo}",
-            method = RequestMethod.GET,
-            produces = {MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_XML_VALUE})
-    @ResponseBody
+    @GetMapping(value = "/employee/{empNo}",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     public Employee getEmployee(
             @PathVariable("empNo") String empNo) {
         return employeeDAO.getEmployee(empNo);
     }
 
     // http://localhost:8080/employee
-    // http://localhost:8080/employee.xml
-    // http://localhost:8080/employee.json
-
-    @RequestMapping(value = "/employee",
-            method = RequestMethod.POST,
-            produces = {MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_XML_VALUE})
-    @ResponseBody
+    @PostMapping(value = "/employee",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     public Employee addEmployee(@RequestBody Employee emp) {
-
         System.out.println("(Service Side) Creating employee: " + emp.getEmpNo());
-
         return employeeDAO.addEmployee(emp);
     }
 
     // http://localhost:8080/employee
-    // http://localhost:8080/employee.xml
-    // http://localhost:8080/employee.json
-    @RequestMapping(value = "/employee",
-            method = RequestMethod.PUT,
-            produces = {MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_XML_VALUE})
-    @ResponseBody
+    @PutMapping(value = "/employee",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     public Employee updateEmployee(
             @RequestBody Employee emp
     ) {
-
         System.out.println("(Service Side) Editing employee: " + emp.getEmpNo());
-
         return employeeDAO.updateEmployee(emp);
     }
 
     // http://localhost:8080/employee/{empNo}
-    @RequestMapping(value = "/employee/{empNo}",
-            method = RequestMethod.DELETE,
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    @ResponseBody
+    @DeleteMapping(value = "/employee/{empNo}",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     public void deleteEmployee(@PathVariable("empNo") String empNo) {
-
         System.out.println("(Service Side) Deleting employee: " + empNo);
-
         employeeDAO.deleteEmployee(empNo);
     }
 }
